@@ -61,16 +61,14 @@ export default {
     },
     unselectColumn(state: ITableHeader, id: number) {
       if (state.selectedColumns.length === 1) return;
-      state.selectedColumns = state.selectedColumns.filter(
-        (columnId) => columnId !== id
-      );
+      state.selectedColumns = state.selectedColumns.filter((columnId) => columnId !== id);
     },
   },
   getters: {
     getAllCells(state: ITableHeader) {
       return state.data;
     },
-    getSelectedColumns(state: ITableHeader) {
+    selectedColumns(state: ITableHeader) {
       return state.data.filter((item) => {
         const isColumnSelected = state.selectedColumns.includes(item.id);
         if (isColumnSelected) {
@@ -78,7 +76,7 @@ export default {
         }
       });
     },
-    getUnselectedColumns(state: ITableHeader) {
+    unselectedColumns(state: ITableHeader) {
       return state.data.filter((item) => {
         const isColumnSelected = state.selectedColumns.includes(item.id);
         if (!isColumnSelected) {
