@@ -1,7 +1,7 @@
 import tableHeader, { ITableHeader } from './tableHeader';
 import tableSettings, { ITableSettings } from './tableSettings';
 
-import { fakeTable } from '../fakeTable';
+import { fakeTable } from '../../entities/table/model/fakeTable';
 
 export interface ITableRow {
   id: number;
