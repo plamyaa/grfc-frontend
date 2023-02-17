@@ -1,14 +1,6 @@
 <script lang="ts">
 export default { name: 'modal-window' };
 </script>
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-
-const store = useStore();
-
-
-</script>
 
 <template>
   <modal class="modal" @click="$emit('close')">
@@ -48,6 +40,4 @@ const store = useStore();
   transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
-
-
 </style>
