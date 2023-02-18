@@ -5,6 +5,7 @@ export default { name: 'table-navigation' };
 import { ref, defineProps, computed } from 'vue';
 import { useStore } from 'vuex';
 import { tableModel } from '../../model';
+import tableSettings from './tableSettings.vue';
 
 import modalWindow from '@/shared/components/modalWindow.vue';
 
@@ -59,7 +60,7 @@ const tableState = computed(() => store.getters[tableModel.getters.useTable]);
         <i class="fa-solid fa-download"></i>
       </button>
     </div>
-    <modal-window v-if="showSettings" @close="showSettings = false" />
+    <table-settings v-if="showSettings" @close="showSettings = false" />
   </div>
 </template>
 

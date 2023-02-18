@@ -16,7 +16,7 @@ const changeTab = (event: Event) => {
 const component = reactive({
   name: computed(() =>
     activeTab.value === 'find'
-      ? defineAsyncComponent(() => import('./ui/body/index.vue'))
+      ? defineAsyncComponent(() => import('./ui/body/tableBody.vue'))
       : defineAsyncComponent(() => import('./ui/filter/tableFilter.vue'))
   ),
 });

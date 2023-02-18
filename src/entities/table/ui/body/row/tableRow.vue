@@ -8,7 +8,7 @@ import { ITableRow } from '@/entities/table/model/model';
 import { useStore } from 'vuex';
 import { tableModel } from '@/entities/table/model';
 
-import TableCell from './cell/index.vue';
+import TableCell from './cell/tableCell.vue';
 
 const store = useStore();
 

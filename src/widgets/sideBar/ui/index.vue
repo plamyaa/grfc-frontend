@@ -5,6 +5,7 @@ export default { name: 'ContentSideBar' };
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { menuModel } from '../../sideMenu';
+import { vOnClickOutside } from '@vueuse/components';
 
 import SideDropdown from './sideDropdown.vue';
 
@@ -24,9 +25,6 @@ const openSidedrop = (event: Event) => {
 };
 
 const closeModal = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  const isButton = buttons.value.find((button) => button.name === target.id);
-  if (isButton) return;
   checked.value = '';
 };
 
@@ -51,7 +49,7 @@ const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
       />
       <i class="side-bar__icon" :class="name"></i>
     </label>
-    <SideDropdown v-if="checked" v-click-outside="closeModal">
+    <SideDropdown v-if="checked" v-on-click-outside="closeModal">
       <div class="first-layer">Форма 1.1</div>
       <div class="first-layer">Форма 1.1</div>
       <div class="first-layer">Форма 1.1</div>

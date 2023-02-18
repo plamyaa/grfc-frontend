@@ -3,7 +3,7 @@ export default { name: 'table-header' };
 </script>
 
 <script setup lang="ts">
-import HeaderCell from './cell/index.vue';
+import HeaderCell from './cell/headerCell.vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
@@ -13,8 +13,8 @@ const columns = computed(() => store.getters['table/header/selectedColumns']);
 <template>
   <thead class="table__header header">
     <tr class="header__row">
-      <header-cell :value="''" />
-      <header-cell v-for="(column, index) in columns" :key="index" :value="column.name" />
+      <header-cell :column="{ value: 'id' }" />
+      <header-cell v-for="(column, index) in columns" :key="index" :column="column" />
     </tr>
   </thead>
 </template>

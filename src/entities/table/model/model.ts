@@ -30,20 +30,39 @@ export const module = {
   },
   getters: {
     // Object.entries медленный метод, нужно найти более оптимизированный способ фильтрации объекта
-
-    // Сдесь фильтруется объекты(строки) таблицы
     useTable: (state: ITableState) =>
+      // Сдесь фильтруется объекты(строки) таблицы
       // Возвращаем отфильтрованные строки
-      state.data.map((row) =>
-        // Создаем объект из entries (выглядят как кортеж из ключа и значения)
-        Object.fromEntries(
-          // Выделяем из объекта entries и фильтруем по индексу
-          Object.entries(row).filter(
-            // Проверяем находится ли индекс в массиве выбранных колонн
-            (_, index) => state.header.selectedColumns.includes(index)
+      state.data
+        .map((row) =>
+          // Создаем объект из entries (выглядят как кортеж из ключа и значения)
+          Object.fromEntries(
+            // Выделяем из объекта entries и фильтруем по индексу
+            Object.entries(row).filter(
+              // Проверяем находится ли индекс в выбранных колоннах
+              (_, index) => state.header.selectedColumns.includes(index)
+            )
           )
         )
-      ),
+        // Сортировка по убыванию или возрастанию
+        .sort((a, b) => {
+          const key = state.header.sorting.key || 'id';
+          const direction = state.header.sorting.direction;
+          if (direction) {
+            return a[key] >= b[key] ? 1 : -1;
+          } else {
+            return a[key] < b[key] ? 1 : -1;
+          }
+        })
+        // Фильтрация, когда водится значение в поиск
+        // Работает жутко медленно, особенно при удалении символов !!!
+        .filter((row) => {
+          const { key, value } = state.header.filter;
+          if (!key && !value) return row;
+
+          if (row[key].toLowerCase().includes(value.toLowerCase())) return row;
+          return null;
+        }),
 
     columns: (state: ITableState) => Object.keys(state.data[0]),
     isSelectedRow: (state: ITableState) => (id: number) =>
