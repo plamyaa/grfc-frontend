@@ -3,8 +3,8 @@ export default { name: 'table-body' };
 </script>
 
 <script setup lang="ts">
-import TableHeader from './header/index.vue';
-import TableRow from './row/index.vue';
+import TableHeader from './header/headerRow.vue';
+import TableRow from './row/tableRow.vue';
 import { computed } from 'vue';
 import { tableModel } from '../../model';
 import { useStore } from 'vuex';
