@@ -58,14 +58,5 @@ export default { name: 'table-filter' };
     width: 0;
     height: 27px;
   }
-  &__add-btn {
-    //background-image: url(@/assets/table/ftrs_add-btn.svg);
-  }
-  &__delete-btn {
-    //background-image: url(@/assets/table/ftrs_delete-btn.svg);
-  }
-  &__save-btn {
-    //background-image: url(@/assets/table/ftrs_save-btn.svg);
-  }
 }
 </style>

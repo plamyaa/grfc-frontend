@@ -1,6 +1,9 @@
-import { ITableHeader } from './header';
+import { ITableSettings } from './settings';
+import { settingsModel } from './settings';
 import { fakeTable } from './fakeTable';
+import { ITableHeader } from './header';
 import { headerModel } from './header';
+
 export const NAMESPACE = 'table';
 
 const IS_NAMESPACED = true;
@@ -20,6 +23,7 @@ export interface ITableState {
   data: ITableRow[];
   selectedRows: number[];
   header: ITableHeader;
+  settings: ITableSettings;
 }
 
 export const module = {
@@ -62,7 +66,13 @@ export const module = {
 
           if (row[key].toLowerCase().includes(value.toLowerCase())) return row;
           return null;
-        }),
+        })
+        // Пагинация
+        .slice(
+          state.settings.pagination.page * state.settings.pagination.currentValue,
+          state.settings.pagination.page * state.settings.pagination.currentValue +
+            state.settings.pagination.currentValue
+        ),
 
     columns: (state: ITableState) => Object.keys(state.data[0]),
     isSelectedRow: (state: ITableState) => (id: number) =>
@@ -89,6 +99,7 @@ export const module = {
   },
   modules: {
     [headerModel.NAMESPACE]: headerModel.module,
+    [settingsModel.NAMESPACE]: settingsModel.module,
   },
 };
 

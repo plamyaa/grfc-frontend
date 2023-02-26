@@ -14,6 +14,15 @@ const unselectColumn = (id: number) => store.commit('table/header/unselectColumn
 
 const selectedColumns = computed(() => store.getters['table/header/selectedColumns']);
 const selectColumn = (id: number) => store.commit('table/header/selectColumn', id);
+
+const paginationCurrentValue = computed(
+  () => store.getters['table/settings/paginationCurrentValue']
+);
+const paginationValues = computed(() => store.getters['table/settings/paginationValues']);
+const setPagination = (event: Event) => {
+  const target = event.target as HTMLSelectElement;
+  store.commit('table/settings/setPagination', +target.value);
+};
 </script>
 <template>
   <modal-window @close="$emit('close')">
@@ -59,20 +68,20 @@ const selectColumn = (id: number) => store.commit('table/header/selectColumn', i
         <select
           class="selectors__rows selectors_btn"
           id="selectors__rows"
-          placeholder="Значимость"
+          @change="setPagination($event)"
         >
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
+          <option
+            v-for="(number, index) in paginationValues"
+            :key="index"
+            :selected="paginationCurrentValue === number"
+          >
+            {{ number }}
+          </option>
         </select>
       </label>
       <label for="selectors__font-size">
         <span>Размер шрифта:</span>
-        <select
-          class="selectors__font-size selectors_btn"
-          id="selectors__font-size"
-          placeholder="Значимость"
-        >
+        <select class="selectors__font-size selectors_btn" id="selectors__font-size">
           <option>1</option>
           <option>2</option>
           <option>3</option>
@@ -80,11 +89,7 @@ const selectColumn = (id: number) => store.commit('table/header/selectColumn', i
       </label>
       <label for="selectors__padding">
         <span>Отступ:</span>
-        <select
-          class="selectors__padding selectors_btn"
-          id="selectors__padding"
-          placeholder="Значимость"
-        >
+        <select class="selectors__padding selectors_btn" id="selectors__padding">
           <option>1</option>
           <option>2</option>
           <option>3</option>
