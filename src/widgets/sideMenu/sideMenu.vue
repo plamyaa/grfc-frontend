@@ -4,11 +4,27 @@ export default { name: 'side-menu' };
 
 <script setup lang="ts">
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { menuModel } from '.';
+import { fakeMenu } from './fakeMenu';
+import FoldersMenu from './foldersMenu.vue';
+import { isTemplateElement } from '@babel/types';
+
+interface IFoldersChildren {
+  name: string;
+  children?: IFoldersChildren;
+}
 const store = useStore();
+const searchFolder = ref('');
 
 const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
+const searchFolders = computed(() => {
+  return treeData.filter((item) =>
+    item.name.toLowerCase().includes(searchFolder.value.toLowerCase())
+  );
+});
+
+const treeData = fakeMenu;
 </script>
 
 <template>
@@ -21,6 +37,7 @@ const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
             name="seacrh"
             class="search-bar__input"
             placeholder="Search..."
+            v-model="searchFolder"
           />
           <button name="search_button" type="submit" class="search-input__button">
             <figure class="search-bar__figure">
@@ -29,7 +46,16 @@ const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
           </button>
         </div>
       </div>
-      <div class="first-layer">
+      <ul class="first-layer">
+        <FoldersMenu
+          class="item"
+          v-for="(item, index) in searchFolders"
+          :key="index"
+          :item="item"
+        ></FoldersMenu>
+      </ul>
+
+      <!-- <div class="first-layer">
         <i class="menu-type fa-solid fa-folder"></i>
         <div class="first-layer-text">Администрирование</div>
         <i class="menu-arrow fa-solid fa-chevron-down"></i>
@@ -47,57 +73,7 @@ const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
       <div class="third-layer">
         <i class="menu-type fa-solid fa-file"></i>
         <div class="first-layer-text">Аудит</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">История активности</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Очередь</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Системные задания</div>
-      </div>
-      <div class="second-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Периодические операции</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Системные задания</div>
-      </div>
-      <div class="second-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Настройки</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Аудит</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Группы пользователей</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Номерные серии</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Объекты</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Параметры</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Шаблоны</div>
-      </div>
+      </div> -->
     </div>
   </menu>
 </template>
