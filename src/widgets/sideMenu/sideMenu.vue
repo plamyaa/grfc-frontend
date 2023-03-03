@@ -54,26 +54,6 @@ const treeData = fakeMenu;
           :item="item"
         ></FoldersMenu>
       </ul>
-
-      <!-- <div class="first-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Администрирование</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="second-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Пользователи</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="second-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Запросы</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Аудит</div>
-      </div> -->
     </div>
   </menu>
 </template>
