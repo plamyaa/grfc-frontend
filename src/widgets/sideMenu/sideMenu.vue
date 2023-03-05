@@ -14,17 +14,19 @@ interface IFoldersChildren {
   name: string;
   children?: IFoldersChildren;
 }
+const treeData = fakeMenu;
 const store = useStore();
 const searchFolder = ref('');
 
 const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
+
+// поиск по меню
 const searchFolders = computed(() => {
-  return treeData.filter((item) =>
+  let results = treeData.filter((item) =>
     item.name.toLowerCase().includes(searchFolder.value.toLowerCase())
   );
+  return results;
 });
-
-const treeData = fakeMenu;
 </script>
 
 <template>
