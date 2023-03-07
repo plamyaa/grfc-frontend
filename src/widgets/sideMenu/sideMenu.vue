@@ -108,7 +108,7 @@ function filterMenu(
   gap: 10px;
   width: 250px;
   padding: 10px 12px;
-  background-color: #120E22;
+  background-color: #120e22;
 }
 .search-bar {
   display: flex;
