@@ -65,7 +65,7 @@ const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
     display: none;
   }
   width: 60px;
-  background-color: #000855;
+  background-color: #120E22;
   display: flex;
   flex-direction: column;
   &__button {

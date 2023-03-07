@@ -2,7 +2,9 @@ export const fakeMenu = [
   {
     name: 'Администрирование',
     children: [
-      { name: 'Пользователи' },
+      {
+        name: 'Пользователи',
+      },
       {
         name: 'Запросы',
         children: [
@@ -13,8 +15,13 @@ export const fakeMenu = [
         ],
       },
       {
+
         name: 'Периодические операции',
-        children: [{ name: 'Системные задания' }],
+        children: [
+          {
+            name: 'Системные задания',
+          },
+        ],
       },
       {
         name: 'Настройки',
