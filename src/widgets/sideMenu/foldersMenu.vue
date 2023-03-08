@@ -3,10 +3,11 @@ export default { name: 'folders-menu' };
 </script>
 <script setup lang="ts">
 import { computed, ref, defineProps } from 'vue';
+import { IFoldersChildren } from './sideMenu.vue';
 
 interface Props {
   name: string;
-  children: any;
+  children?: IFoldersChildren[];
 }
 const props = defineProps<{ item: Props }>();
 
@@ -16,6 +17,12 @@ const toggle = () => {
     isOpen.value = !isOpen.value;
   }
 };
+const sortingIcon = computed(() => {
+  return isOpen.value === true
+    ? `<i class="menu-arrow fa-solid fa-chevron-up fa-sm"></i>`
+    : `<i class="menu-arrow fa-solid fa-chevron-down fa-sm"></i>`;
+});
+
 const isFolder = computed(() => {
   return props.item.children && props.item.children.length;
 });
@@ -25,17 +32,12 @@ const isFolder = computed(() => {
   <div class="menu-content">
     <li class="menu-folders">
       <div class="first-layer-text" @click="toggle">
-        <i class="menu-type fa-solid fa-folder" v-if="isFolder"></i>
-        <i class="menu-type fa-solid fa-file" v-else></i>
-        {{ item.name }}
-        <span
-          :class="
-            isOpen
-              ? 'menu-arrow fa-solid fa-chevron-up'
-              : 'menu-arrow fa-solid fa-chevron-down'
-          "
-          v-if="isFolder"
-        ></span>
+        <div>
+          <i class="menu-type fa-solid fa-folder" v-if="isFolder"></i>
+          <i class="menu-type fa-solid fa-file" v-else></i>
+          {{ item?.name }}
+        </div>
+        <span v-html="sortingIcon" v-if="isFolder"></span>
       </div>
       <ul v-show="isOpen" v-if="isFolder">
         <folders-menu
@@ -56,12 +58,22 @@ const isFolder = computed(() => {
   flex-direction: column;
   gap: 10px;
   padding: 10px 12px;
-  background-color: #000855;
 }
 .menu-type {
   margin-right: 7px;
   width: 13px;
   height: 18px;
+}
+.first-layer-text {
+  display: flex;
+  color: #ffffff;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fa-folder {
+  width: 15px;
+  height: 20px;
 }
 .menu-folders {
   list-style-type: none;
