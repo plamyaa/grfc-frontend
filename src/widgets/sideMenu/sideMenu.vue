@@ -4,11 +4,62 @@ export default { name: 'side-menu' };
 
 <script setup lang="ts">
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { menuModel } from '.';
+import { fakeMenu } from './fakeMenu';
+import FoldersMenu from './foldersMenu.vue';
+import { isTemplateElement } from '@babel/types';
+
+export interface IFoldersChildren {
+  name: string;
+  children?: IFoldersChildren[];
+}
+const treeData = fakeMenu;
 const store = useStore();
+const searchFolder = ref('');
 
 const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
+
+// поиск по меню
+// const searchFolders = computed(() => {
+//   let results = treeData.filter((item) =>
+//     item.name.toLowerCase().includes(searchFolder.value.toLowerCase())
+//   );
+//   return results;
+// });
+
+const filteredMenu = computed(() => {
+  if (!searchFolder.value) {
+    return treeData;
+  }
+  const filteredItems: IFoldersChildren[] = [];
+  filterMenu(treeData, filteredItems, searchFolder.value);
+  console.log(filteredItems);
+  return filteredItems;
+});
+
+function filterMenu(
+  items: IFoldersChildren[],
+  filteredItems: IFoldersChildren[],
+  searchQuery: string
+) {
+  for (const item of items) {
+    if (item.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+      filteredItems.push(item);
+    }
+    if (item.children) {
+      const children: IFoldersChildren[] = [];
+      filterMenu(item.children, children, searchQuery);
+      if (children.length > 0) {
+        filteredItems.push({
+          ...item,
+          children,
+        });
+      }
+    }
+  }
+  return filteredItems;
+}
 </script>
 
 <template>
@@ -21,6 +72,7 @@ const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
             name="seacrh"
             class="search-bar__input"
             placeholder="Search..."
+            v-model.lazy="searchFolder"
           />
           <button name="search_button" type="submit" class="search-input__button">
             <figure class="search-bar__figure">
@@ -29,75 +81,14 @@ const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
           </button>
         </div>
       </div>
-      <div class="first-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Администрирование</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="second-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Пользователи</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="second-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Запросы</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Аудит</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">История активности</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Очередь</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Системные задания</div>
-      </div>
-      <div class="second-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Периодические операции</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Системные задания</div>
-      </div>
-      <div class="second-layer">
-        <i class="menu-type fa-solid fa-folder"></i>
-        <div class="first-layer-text">Настройки</div>
-        <i class="menu-arrow fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Аудит</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Группы пользователей</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Номерные серии</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Объекты</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Параметры</div>
-      </div>
-      <div class="third-layer">
-        <i class="menu-type fa-solid fa-file"></i>
-        <div class="first-layer-text">Шаблоны</div>
-      </div>
+      <li class="first-layer">
+        <FoldersMenu
+          class="item"
+          v-for="(item, index) in filteredMenu"
+          :key="index"
+          :item="item"
+        ></FoldersMenu>
+      </li>
     </div>
   </menu>
 </template>
@@ -117,7 +108,7 @@ const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
   gap: 10px;
   width: 250px;
   padding: 10px 12px;
-  background-color: #000855;
+  background-color: #120e22;
 }
 .search-bar {
   display: flex;

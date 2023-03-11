@@ -33,7 +33,7 @@ const toggleMenu = () => store.commit(menuModel.mutations.toggleMenu);
 <style lang="scss" scoped>
 .header {
   display: flex;
-  background-color: #000855;
+  background-color: #120e22;
   height: 80px;
   padding: 0 10px;
   justify-content: space-between;

@@ -13,7 +13,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "jest"
     ],
     "paths": {
       "@/*": [
@@ -33,7 +34,9 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "tests/e2e/.fixtures/**/*.ts"
+    "tests/e2e/.fixtures/**/*.ts",
+    "tests/unit/tableEntity.spec.js",
+    "tests/unit/tableEntity.spec.js"
   ],
   "exclude": [
     "node_modules"
