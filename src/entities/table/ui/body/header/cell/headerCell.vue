@@ -55,7 +55,7 @@ const selectRows = () => store.commit(tableModel.mutations.toggleAllRows);
   <th class="header__cell" :id="sortingIcon">
     <div class="header__cell-wrapper">
       <div v-if="column.value !== 'id'" class="header__buttons-wrapper">
-        <span class="header__text"> {{ column.value }} </span>
+        <span class="header__text"> {{ column.name }} </span>
         <button
           class="header__sort-button"
           :id="`header__button-${column.value}`"
