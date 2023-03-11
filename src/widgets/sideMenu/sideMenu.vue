@@ -10,21 +10,56 @@ import { fakeMenu } from './fakeMenu';
 import FoldersMenu from './foldersMenu.vue';
 import { isTemplateElement } from '@babel/types';
 
-interface IFoldersChildren {
+export interface IFoldersChildren {
   name: string;
-  children?: IFoldersChildren;
+  children?: IFoldersChildren[];
 }
+const treeData = fakeMenu;
 const store = useStore();
 const searchFolder = ref('');
 
 const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
-const searchFolders = computed(() => {
-  return treeData.filter((item) =>
-    item.name.toLowerCase().includes(searchFolder.value.toLowerCase())
-  );
+
+// поиск по меню
+// const searchFolders = computed(() => {
+//   let results = treeData.filter((item) =>
+//     item.name.toLowerCase().includes(searchFolder.value.toLowerCase())
+//   );
+//   return results;
+// });
+
+const filteredMenu = computed(() => {
+  if (!searchFolder.value) {
+    return treeData;
+  }
+  const filteredItems: IFoldersChildren[] = [];
+  filterMenu(treeData, filteredItems, searchFolder.value);
+  console.log(filteredItems);
+  return filteredItems;
 });
 
-const treeData = fakeMenu;
+function filterMenu(
+  items: IFoldersChildren[],
+  filteredItems: IFoldersChildren[],
+  searchQuery: string
+) {
+  for (const item of items) {
+    if (item.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+      filteredItems.push(item);
+    }
+    if (item.children) {
+      const children: IFoldersChildren[] = [];
+      filterMenu(item.children, children, searchQuery);
+      if (children.length > 0) {
+        filteredItems.push({
+          ...item,
+          children,
+        });
+      }
+    }
+  }
+  return filteredItems;
+}
 </script>
 
 <template>
@@ -37,7 +72,7 @@ const treeData = fakeMenu;
             name="seacrh"
             class="search-bar__input"
             placeholder="Search..."
-            v-model="searchFolder"
+            v-model.lazy="searchFolder"
           />
           <button name="search_button" type="submit" class="search-input__button">
             <figure class="search-bar__figure">
@@ -46,14 +81,14 @@ const treeData = fakeMenu;
           </button>
         </div>
       </div>
-      <ul class="first-layer">
+      <li class="first-layer">
         <FoldersMenu
           class="item"
-          v-for="(item, index) in searchFolders"
+          v-for="(item, index) in filteredMenu"
           :key="index"
           :item="item"
         ></FoldersMenu>
-      </ul>
+      </li>
     </div>
   </menu>
 </template>
@@ -73,7 +108,7 @@ const treeData = fakeMenu;
   gap: 10px;
   width: 250px;
   padding: 10px 12px;
-  background-color: #000855;
+  background-color: #120e22;
 }
 .search-bar {
   display: flex;
