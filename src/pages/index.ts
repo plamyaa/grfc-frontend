@@ -31,6 +31,11 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'developing',
     component: () => import('@/pages/error/errors/inDeveloping.vue'),
   },
+  {
+    path: '/maps',
+    name: 'maps',
+    component: () => import('./maps'),
+  },
 ];
 
 export { RoutingComponent };
