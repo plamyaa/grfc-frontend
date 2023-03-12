@@ -6,10 +6,9 @@ import { computed, ref, defineProps } from 'vue';
 import { IFoldersChildren } from './sideMenu.vue';
 
 interface Props {
-  name: string;
-  children?: IFoldersChildren[];
+  item: IFoldersChildren;
 }
-const props = defineProps<{ item: Props }>();
+const props = defineProps<Props>();
 
 let isOpen = ref(false);
 const toggle = () => {
@@ -42,9 +41,9 @@ const isFolder = computed(() => {
       <ul v-show="isOpen" v-if="isFolder">
         <folders-menu
           class="item"
-          v-for="(child, index) in item.children"
-          :key="index"
-          :item="child"
+          v-for="children in item.children"
+          :key="children.id"
+          :item="children"
         ></folders-menu>
       </ul>
     </li>

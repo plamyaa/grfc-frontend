@@ -11,6 +11,7 @@ import FoldersMenu from './foldersMenu.vue';
 import { isTemplateElement } from '@babel/types';
 
 export interface IFoldersChildren {
+  id: number;
   name: string;
   children?: IFoldersChildren[];
 }
@@ -20,36 +21,27 @@ const searchFolder = ref('');
 
 const menuState = computed(() => store.getters[menuModel.getters.useMenu]);
 
-// поиск по меню
-// const searchFolders = computed(() => {
-//   let results = treeData.filter((item) =>
-//     item.name.toLowerCase().includes(searchFolder.value.toLowerCase())
-//   );
-//   return results;
-// });
-
 const filteredMenu = computed(() => {
   if (!searchFolder.value) {
     return treeData;
   }
   const filteredItems: IFoldersChildren[] = [];
-  filterMenu(treeData, filteredItems, searchFolder.value);
-  console.log(filteredItems);
+  filterMenu(treeData as IFoldersChildren[], filteredItems, searchFolder.value);
   return filteredItems;
 });
 
-function filterMenu(
+const filterMenu = (
   items: IFoldersChildren[],
   filteredItems: IFoldersChildren[],
-  searchQuery: string
-) {
+  searchFolder: string
+) => {
   for (const item of items) {
-    if (item.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+    if (item.name.toLowerCase().includes(searchFolder.toLowerCase())) {
       filteredItems.push(item);
     }
     if (item.children) {
       const children: IFoldersChildren[] = [];
-      filterMenu(item.children, children, searchQuery);
+      filterMenu(item.children, children, searchFolder);
       if (children.length > 0) {
         filteredItems.push({
           ...item,
@@ -59,13 +51,13 @@ function filterMenu(
     }
   }
   return filteredItems;
-}
+};
 </script>
 
 <template>
   <menu class="menu-wrapper" :class="{ active: menuState }">
     <div class="menu-content">
-      <div class="search-bar__container">
+    <div class="search-bar__container">
         <div class="search-bar">
           <input
             type="search"
@@ -84,8 +76,8 @@ function filterMenu(
       <li class="first-layer">
         <FoldersMenu
           class="item"
-          v-for="(item, index) in filteredMenu"
-          :key="index"
+          v-for="item in filteredMenu"
+          :key="item.id"
           :item="item"
         ></FoldersMenu>
       </li>
@@ -147,6 +139,7 @@ function filterMenu(
   display: flex;
   color: #ffffff;
   align-items: center;
+  flex-direction: column;
 }
 
 .menu-type {
