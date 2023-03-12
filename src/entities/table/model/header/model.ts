@@ -7,7 +7,7 @@ export interface IHeaderCell {
   id: number;
   value: string;
   name: string;
-  searchType: 'data' | 'default';
+  type: string;
 }
 
 export interface ITableHeader {

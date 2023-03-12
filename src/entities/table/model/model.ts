@@ -63,7 +63,7 @@ export const module = {
         .filter((row) => {
           const { key, value } = state.header.filter;
           if (!key && !value) return row;
-
+          console.log(value);
           if (row[key].toLowerCase().includes(value.toLowerCase())) return row;
           return null;
         })
