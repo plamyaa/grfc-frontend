@@ -43,23 +43,23 @@ const setSortingKey = (key: string, direction: boolean) =>
 const inputValue = ref('');
 const setSearchFilter = (event: Event) => {
   let target = event.target as HTMLInputElement;
-  switch (target.type) {
-    case 'date': {
-      const day = target.value.slice(8);
-      const month = target.value.slice(5, 7);
-      const year = target.value.slice(0, 4);
+
+  if (target.type === 'date') {
+    const day = target.value.slice(8);
+    const month = target.value.slice(5, 7);
+    const year = target.value.slice(0, 4);
+    if (day && month && year) {
       store.commit('table/header/setFilter', {
         key: props.column.value,
         value: `${day}.${month}.${year}`,
       });
-      break;
+      return;
     }
-    default:
-      store.commit('table/header/setFilter', {
-        key: props.column.value,
-        value: target.value,
-      });
   }
+  store.commit('table/header/setFilter', {
+    key: props.column.value,
+    value: target.value,
+  });
 };
 
 const selectRows = () => store.commit(tableModel.mutations.toggleAllRows);
