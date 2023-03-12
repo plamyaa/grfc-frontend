@@ -42,7 +42,20 @@ const setSortingKey = (key: string, direction: boolean) =>
 
 const inputValue = ref('');
 const setSearchFilter = (event: Event) => {
-  const target = event.target as HTMLInputElement;
+  let target = event.target as HTMLInputElement;
+
+  if (target.type === 'date') {
+    const day = target.value.slice(8);
+    const month = target.value.slice(5, 7);
+    const year = target.value.slice(0, 4);
+    if (day && month && year) {
+      store.commit('table/header/setFilter', {
+        key: props.column.value,
+        value: `${day}.${month}.${year}`,
+      });
+      return;
+    }
+  }
   store.commit('table/header/setFilter', {
     key: props.column.value,
     value: target.value,
@@ -55,7 +68,7 @@ const selectRows = () => store.commit(tableModel.mutations.toggleAllRows);
   <th class="header__cell" :id="sortingIcon">
     <div class="header__cell-wrapper">
       <div v-if="column.value !== 'id'" class="header__buttons-wrapper">
-        <span class="header__text"> {{ column.value }} </span>
+        <span class="header__text"> {{ column.name }} </span>
         <button
           class="header__sort-button"
           :id="`header__button-${column.value}`"
@@ -70,7 +83,7 @@ const selectRows = () => store.commit(tableModel.mutations.toggleAllRows);
         <input
           v-model="inputValue"
           class="dropdown__input"
-          type="text"
+          :type="column.type"
           @input="setSearchFilter"
         />
         <div class="dropdown__buttons">
