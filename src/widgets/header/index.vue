@@ -15,6 +15,9 @@ const toggleMenu = () => store.commit(menuModel.mutations.toggleMenu);
     <button class="burger-btn" @click="toggleMenu">
       <i class="fa-solid fa-bars burger-icon"></i>
     </button>
+    <!-- <div class="header__logo">
+      <img src="@/pages/assets/header_logo.svg">
+    </div> -->
     <div class="search-bar">
       <input
         type="search"

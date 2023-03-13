@@ -99,7 +99,7 @@ const filterMenu = (
   flex-direction: column;
   gap: 10px;
   width: 250px;
-  padding: 10px 12px;
+  padding: 3px 12px;
   background-color: #120e22;
 }
 .search-bar {
