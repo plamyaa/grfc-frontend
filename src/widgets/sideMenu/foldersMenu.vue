@@ -30,7 +30,7 @@ const isFolder = computed(() => {
 <template>
   <div class="menu-content">
     <li class="menu-folders">
-      <div class="first-layer-text" @click="toggle">
+      <div :class="{ 'first-layer-text': isFolder }" @click="toggle">
         <div>
           <i class="menu-type fa-solid fa-folder" v-if="isFolder"></i>
           <i class="menu-type fa-solid fa-file" v-else></i>
@@ -51,6 +51,9 @@ const isFolder = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+.router-link-exact-active {
+  color: #4c58ae;
+}
 .menu-content {
   height: 100%;
   display: flex;
@@ -65,7 +68,7 @@ const isFolder = computed(() => {
 }
 .first-layer-text {
   display: flex;
-  color: #ffffff;
+  color: #ff9333;
   align-items: center;
   justify-content: space-between;
 }
