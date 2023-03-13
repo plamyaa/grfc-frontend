@@ -31,6 +31,16 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'developing',
     component: () => import('@/pages/error/errors/inDeveloping.vue'),
   },
+  {
+    path: '/groups_users',
+    name: 'group_users',
+    component: () => import('@/pages/groupUsers'),
+  },
+  {
+    path: '/create_group',
+    name: 'create_group',
+    component: () => import('@/pages/createGroup/index.vue'),
+  },
 ];
 
 export { RoutingComponent };
