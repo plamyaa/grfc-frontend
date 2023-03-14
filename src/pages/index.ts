@@ -37,9 +37,14 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import('@/pages/groupUsers'),
   },
   {
-    path: '/create_group',
+    path: '/groups_users/create_group',
     name: 'create_group',
     component: () => import('@/pages/createGroup/index.vue'),
+  },
+  {
+    path: '/groups_users/create_group/add_user',
+    name: 'add_user',
+    component: () => import('@/pages/addUserToGroup/index.vue'),
   },
 ];
 
